@@ -6,7 +6,6 @@ from requests.auth import HTTPBasicAuth
 import time
 import threading
 
-# Function to store the IP address and set the host and headers
 def set_ip():
     global mir_ip, host, headers
     mir_ip = ip_entry.get()
@@ -22,38 +21,32 @@ def set_ip():
     else:
         messagebox.showerror("Error", "Please enter a valid IP address.")
 
-# Function to fetch data from MiR API
 def fetch_data(endpoint):
     try:
-        # Make GET request to retrieve data from specified endpoint
         response = requests.get(f'{host}{endpoint}', headers=headers)
         
-        # Check if request was successful
         if response.status_code == 200:
             # Parse JSON response
             data = response.json()
-            return data  # Return the data fetched
+            return data  
         else:
             print(f'Error fetching {endpoint}: {response.status_code} - {response.text}')
-            return None  # Return None on error
+            return None  
 
     except requests.exceptions.RequestException as e:
         print(f'An error occurred fetching {endpoint}: {e}')
-        return None  # Return None on error
+        return None 
 
-# Function to continuously request data
 def request_data():
     global running
     running = True
     try:
         while running:
-            # Fetch missions data
+
             missions_data = fetch_data('missions')
 
-            # Fetch status data
             status_data = fetch_data('status')
 
-            # Example: Printing or using fetched data
             if missions_data:
                 print("Missions:")
                 for mission in missions_data:
@@ -145,38 +138,37 @@ def request_data():
                 position = status_data['position']
                 print("Position:", position)
 
-            # Wait for 2 seconds before the next iteration
             time.sleep(2)
 
     except Exception as e:
         print(f'An error occurred in the loop: {e}')
 
-# Function to stop the data request loop
+
 def stop_request():
     global running
     running = False
     print("Data request loop stopped.")
 
-# Create the main window
+
 root = tk.Tk()
 root.title("MiR Connection Interface")
 
-# Create and place the IP entry widgets
+
 tk.Label(root, text="Enter MiR IP:").grid(row=0, column=0, padx=10, pady=10)
 ip_entry = tk.Entry(root)
 ip_entry.grid(row=0, column=1, padx=10, pady=10)
 
-# Create and place the set IP button
+
 set_ip_button = tk.Button(root, text="Set IP", command=set_ip)
 set_ip_button.grid(row=0, column=2, padx=10, pady=10)
 
-# Create and place the request data button
+
 request_button = tk.Button(root, text="Request Data", command=lambda: threading.Thread(target=request_data).start(), state=tk.DISABLED)
 request_button.grid(row=1, column=0, columnspan=3, pady=20)
 
-# Create and place the stop request button
+
 stop_button = tk.Button(root, text="Stop Request", command=stop_request, state=tk.DISABLED)
 stop_button.grid(row=2, column=0, columnspan=3, pady=20)
 
-# Run the GUI event loop
+
 root.mainloop()
