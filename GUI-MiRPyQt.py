@@ -137,7 +137,6 @@ class MainWindow(QMainWindow):
 
         data = self.fetched_data
 
-        # Create HTML content based on the selected structure
         html_content = f"""
         <!DOCTYPE html>
         <html lang="en">
@@ -196,7 +195,7 @@ class MainWindow(QMainWindow):
                         <ul>
         """
 
-        # Add Header properties to the HTML content
+
         for prop in property_selection.get('Header', []):
             html_content += f"<li>{prop}: {data.get(prop, 'N/A')}</li>"
 
@@ -206,7 +205,6 @@ class MainWindow(QMainWindow):
                 </div>
         """
 
-        # Add each submodel to the HTML content
         for submodel in submodels:
             html_content += f"""
             <div class="box">
@@ -214,7 +212,7 @@ class MainWindow(QMainWindow):
                 <div class="box-content">
                     <ul>
         """
-            # Add properties to the submodel
+
             for prop in property_selection.get('Submodels', {}).get(submodel, []):
                 html_content += f"<li>{prop}: {data.get(prop, 'N/A')}</li>"
 
@@ -329,7 +327,6 @@ class AASConfigDialog(QDialog):
             header_group_box_layout.addWidget(checkbox)
             self.header_checkboxes[prop] = checkbox
 
-        # Submodel properties
         self.checkboxes = {}
         for submodel in self.submodels:
             group_box = QGroupBox(submodel)
