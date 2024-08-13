@@ -1,1 +1,1 @@
-An App to collect data from mobile industrial robots.
+An App to collect data from mobile industrial robots (MiRs).
