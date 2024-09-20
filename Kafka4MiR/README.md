@@ -1,7 +1,7 @@
 ## Kafka Producer, Consumer, and Setup Automation Instructions
 
 ### Kafka Producer (`kafka_producer.py`)
-- Script designed to generate MiR data and send it to a Kafka topic.
+- Script designed to generate multiple MiR data and send it to a Kafka topic at different partitions.
 - Connects to a Kafka broker and sends messages to a specified topic (`my_mir_data`).
 - Uses the Kafka Python client `KafkaProducer` to send serialized data.
 - Supports real-time data generation using a time delay.
