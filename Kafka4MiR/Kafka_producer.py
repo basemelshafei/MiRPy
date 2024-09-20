@@ -3,34 +3,34 @@ import random
 import time
 from kafka import KafkaProducer
 
-# Initialize the Kafka producer
+
 producer = KafkaProducer(
     bootstrap_servers='localhost:9092',
-    value_serializer=lambda v: json.dumps(v).encode('utf-8'),  # Serialize data as JSON
-    linger_ms=100,  # Batches messages for 100ms before sending
-    batch_size=16384  # Batch size to improve throughput
+    value_serializer=lambda v: json.dumps(v).encode('utf-8'),  
+    linger_ms=100,  
+    batch_size=16384  
 )
 
-# Callback for success
+
 def on_success(metadata):
     print(f"Message delivered to {metadata.topic} partition {metadata.partition} offset {metadata.offset}")
 
-# Callback for error
+
 def on_error(exception):
     print(f"Failed to deliver message: {exception}")
 
-# Send the data to the Kafka topic with partitioning by robot_name
+
 def handle_data_fetched(data):
     try:
         partition_map = {'Robot-1': 0, 'Robot-2': 1, 'Robot-3': 2}
-        partition = partition_map.get(data['robot_name'], 0)  # Default to partition 0 if robot_name not found
+        partition = partition_map.get(data['robot_name'], 0)  
         future = producer.send('my_mir_data', value=data, partition=partition)
         future.add_callback(on_success).add_errback(on_error)
-        producer.flush()  # Ensures the message is sent immediately
+        producer.flush()  
     except Exception as e:
         print(f"Error sending message: {e}")
 
-# Validate the data before sending
+
 def validate_data(data):
     required_fields = ["robot_name", "battery_percentage", "timestamp"]
     for field in required_fields:
@@ -39,9 +39,9 @@ def validate_data(data):
             return False
     return True
 
-# Simulated MiR data fetching logic for multiple robots
+
 def generate_mir_data():
-    robots = ['Robot-1', 'Robot-2', 'Robot-3']  # Define 3 specific MiRs
+    robots = ['Robot-1', 'Robot-2', 'Robot-3']  
     while True:
         for robot in robots:
             data = {
@@ -77,10 +77,10 @@ def generate_mir_data():
             }
             
             if validate_data(data):
-                handle_data_fetched(data)  # Send valid data to Kafka
+                handle_data_fetched(data) 
             
-        time.sleep(2)  # Adjust the interval as needed
+        time.sleep(2) 
 
-# Run the data generator
+
 if __name__ == "__main__":
     generate_mir_data()
