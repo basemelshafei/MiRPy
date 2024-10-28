@@ -2,15 +2,15 @@ import time
 import requests
 
 # MiR Configuration
-MIR_IP = "http://10.148.127.210/api/v2.0.0/"
+MIR_IP = "http://xxx.xxx.xxx.xxx/api/v2.0.0/"
 HEADERS = {
     'Content-Type': 'application/json',
     'Authorization': 'Basic RGlzdHJpYnV0b3I6NjJmMmYwZjFlZmYxMGQzMTUyYzk1ZjZmMDU5NjU3NmU0ODJiYjhlNDQ4MDY0MzNmNGNmOTI5NzkyODM0YjAxNA=='
 }
 
 # Mission GUIDs
-GO_TO_POSITION_GUID = "b0b69f85-9544-11ef-a1df-a41cb4015430"
-GO_TO_CHARGING_GUID = "e5627397-d947-11ed-b436-a41cb4015430"
+GO_TO_POSITION_GUID = "xxxx-xxxx-xxxx-xxxx"
+GO_TO_CHARGING_GUID = "xxxx-xxxx-xxxx-xxxx"
 
 def send_mission(mission_guid):
     """
